@@ -24,7 +24,7 @@ require('yargs')
       });
     },
     handler: (argv) => {
-      let url = `${argv.host}:${argv.port}`;
+      let url = `ws://${argv.host}:${argv.port}`;
       if (argv.botmasterUserId && typeof argv.botmasterUserId === 'string') {
         url += `?botmasterUserId=${argv.botmasterUserId}`;
       }
