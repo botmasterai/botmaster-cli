@@ -12,6 +12,8 @@ Thumbs.db
 
 example_jd.js
 
+.yo-rc.json
+
 # Application specific files
 node_modules
 npm-debug.log

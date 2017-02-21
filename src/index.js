@@ -1,8 +1,38 @@
 #!/usr/bin/env node
 
-const consoleBotClient = require('./consoleBotClient');
+const R = require('ramda');
+const consoleBotClient = require('./console_bot_client');
+const generateProject = require('./generate_project');
 
 require('yargs')
+  .command({
+    command: 'generate [options]',
+    aliases: ['generate-project', 'build-project', 'build', 'create'],
+    desc: 'Enables developers to create templated botmaster projects using the preferred architecture',
+    builder: (yargs) => {
+      yargs.option('platforms', {
+        alias: ['p', 'clients', 'c'],
+        describe: 'the platforms you want your botmaster project to support. Comma or space separated string',
+      });
+      yargs.option('help', {
+        alias: ['h'],
+      });
+      yargs.option('skip-cache', {
+        describe: 'Do not remember prompt answers',
+        default: false,
+      });
+      yargs.option('skip-install', {
+        describe: 'Do not automatically install dependencies',
+        default: false,
+      });
+    },
+    handler: (argv) => {
+      // let yeoman do the rest
+      generateProject(
+        R.pick(['platforms', 'skip-cache', 'skip-install'], argv));
+    },
+  })
+
   .command({
     command: 'console-bot [options]',
     aliases: ['bot', 'run', 'start-bot'],

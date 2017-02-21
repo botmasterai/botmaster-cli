@@ -18,7 +18,7 @@ const consoleBotClient = (url) => {
   });
 
   socket.on('connect_error', () => {
-    console.error(chalk.bold.red(`\ncoudn't find a valid client at: ${url}`));
+    console.error(chalk.bold.red(`\ncoudn't find any valid client at: ${url}`));
     process.exit(1);
   });
 
