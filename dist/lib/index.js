@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-var R = require('ramda');
+var fp = require('lodash/fp');
 var consoleBotClient = require('./console_bot/console_bot_client');
 var generatorManager = require('./generator_manager');
 
@@ -19,7 +19,7 @@ require('yargs').command({
       describe: 'generate a new middleware'
     });
     yargs.option('bot-class', {
-      alias: ['b', 'botClass'],
+      alias: ['botClass', 'b'],
       describe: 'generate a new bot class'
     });
     yargs.option('help', {
@@ -34,9 +34,10 @@ require('yargs').command({
       default: false
     });
 
-    return yargs.conflicts('project', 'middleware', 'bot-class');
+    return yargs
+    // specify that arguments are pairwise mutually exclusive
+    .conflicts('project', 'middleware').conflicts('project', 'bot-class').conflicts('middleware', 'bot-class');
   },
-  // conflicts: ['project', 'middleware', 'bot-class'],
   handler: function handler(argv) {
     // let yeoman do the rest
     var wantedGenerator = void 0;
@@ -47,32 +48,7 @@ require('yargs').command({
     } else if (argv.botClass) {
       wantedGenerator = 'botClass';
     }
-    generatorManager.runGenerator(wantedGenerator, R.pick(['skip-cache', 'skip-install'], argv));
-  }
-}).command({
-  command: 'middleware [options]',
-  aliases: ['generate-middleware', 'build-middleware', 'create-middleware'],
-  desc: 'Allows developer to start building their botmaster middleware using best practices',
-  builder: function builder(yargs) {
-    yargs.option('platforms', {
-      alias: ['p', 'clients', 'c'],
-      describe: 'the platforms you want your botmaster project to support. Comma or space separated string'
-    });
-    yargs.option('help', {
-      alias: ['h']
-    });
-    yargs.option('skip-cache', {
-      describe: 'Do not remember prompt answers',
-      default: false
-    });
-    yargs.option('skip-install', {
-      describe: 'Do not automatically install dependencies',
-      default: false
-    });
-  },
-  handler: function handler(argv) {
-    // let yeoman do the rest
-    generatorManager.run('middleware', R.pick(['platforms', 'skip-cache', 'skip-install'], argv));
+    generatorManager.run(wantedGenerator, fp.pick(['skip-cache', 'skip-install'])(argv));
   }
 }).command({
   command: 'console-bot [options]',

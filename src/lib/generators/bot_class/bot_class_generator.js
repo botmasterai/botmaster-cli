@@ -1,11 +1,11 @@
-const R = require('ramda');
+const _ = require('lodash');
 const chalk = require('chalk');
 const Generator = require('yeoman-generator');
-const getDefaultName = require('../utils').getDefaultName;
 
 const BotClassGenerator = class extends Generator {
   prompting() {
-
+        console.log(this.destinationPath());
+    console.log(this.destinationRoot());
     this.log(chalk.blue('\nNow we will go through the Bot class creation prompt:\n'));
 
     const promptArray = this._buildPromptArray();
@@ -22,7 +22,7 @@ const BotClassGenerator = class extends Generator {
       type: 'input',
       name: 'name',
       message: 'How will your bot class be called?',
-      default: getDefaultName(this.appname),
+      default: _.camelCase(this.appname),
     };
 
     // TODO type name will be name with botmaster stripped out and any
@@ -50,7 +50,9 @@ const BotClassGenerator = class extends Generator {
   }
 
   method2() {
-    this.log(this.options.platforms);
+    console.log(this.destinationPath());
+    console.log(this.destinationRoot());
+    // this.log(this.options.platforms);
   }
 };
 

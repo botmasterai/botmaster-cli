@@ -1,23 +1,5 @@
 const chalk = require('chalk');
 
-const getDefaultName = (appName) => {
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
-  const nameArray = appName.split(' ');
-
-  if (nameArray.length > 1) {
-    for (let j = 1; j < nameArray.length; j += 1) {
-      nameArray[j] = capitalizeFirstLetter(nameArray[j]);
-    }
-
-    return nameArray.join('');
-  }
-
-  return nameArray[0];
-};
-
 const printPreNPMInitPromptMessage = (logger) => {
   logger(chalk.blue('\nFirst, we will walk through the creation of'));
   logger(chalk.blue('a standard package.json file using npm init\n'));
@@ -36,6 +18,5 @@ save it as a dependency in the package.json file.\n`));
 
 
 module.exports = {
-  getDefaultName,
   printPreNPMInitPromptMessage,
 };

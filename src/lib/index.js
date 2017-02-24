@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const R = require('ramda');
+const fp = require('lodash/fp');
 const consoleBotClient = require('./console_bot/console_bot_client');
 const generatorManager = require('./generator_manager');
 
@@ -51,7 +51,7 @@ require('yargs')
         wantedGenerator = 'botClass';
       }
       generatorManager.run(
-        wantedGenerator, R.pick(['skip-cache', 'skip-install'], argv));
+        wantedGenerator, fp.pick(['skip-cache', 'skip-install'])(argv));
     },
   })
 

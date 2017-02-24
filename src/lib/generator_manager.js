@@ -19,4 +19,3 @@ const run = (generatorType, options) => {
 module.exports = {
   run,
 };
-

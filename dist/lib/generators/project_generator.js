@@ -22,20 +22,22 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var R = require('ramda');
+var fp = require('lodash/fp');
 var Generator = require('yeoman-generator');
 
-var BotmasterGenerator = function (_Generator) {
-  (0, _inherits3.default)(BotmasterGenerator, _Generator);
+var ProjectGenerator = function (_Generator) {
+  (0, _inherits3.default)(ProjectGenerator, _Generator);
 
-  function BotmasterGenerator() {
-    (0, _classCallCheck3.default)(this, BotmasterGenerator);
-    return (0, _possibleConstructorReturn3.default)(this, (BotmasterGenerator.__proto__ || (0, _getPrototypeOf2.default)(BotmasterGenerator)).apply(this, arguments));
+  function ProjectGenerator() {
+    (0, _classCallCheck3.default)(this, ProjectGenerator);
+    return (0, _possibleConstructorReturn3.default)(this, (ProjectGenerator.__proto__ || (0, _getPrototypeOf2.default)(ProjectGenerator)).apply(this, arguments));
   }
 
-  (0, _createClass3.default)(BotmasterGenerator, [{
+  (0, _createClass3.default)(ProjectGenerator, [{
     key: 'initializing',
-    value: function initializing() {}
+    value: function initializing() {
+      // this.composeWith(require.resolve('generator-npm-init/app'));
+    }
   }, {
     key: 'prompting',
     value: function prompting() {
@@ -55,7 +57,7 @@ var BotmasterGenerator = function (_Generator) {
         type: 'input',
         name: 'platforms',
         message: 'Which platforms would you like to support?',
-        default: 'socketio, messenger'
+        default: 'socket.io, messenger'
       };
       if (!this.options.platforms) {
         promptArray.push(platformPrompt);
@@ -70,14 +72,14 @@ var BotmasterGenerator = function (_Generator) {
         return;
       }
       // create platforms names array
-      var platforms = R.split(/[,]|\s/, this.options.platforms);
+      var platforms = fp.split(/[,]|\s/)(this.options.platforms);
       // remove any dots (for socket.io for instance)
-      platforms = R.map(R.replace('.', ''), platforms);
+      platforms = fp.map(fp.replace(/[.]/g)(''))(platforms);
       // remove empty entries due to using space and commas.
       var isEmptyString = function isEmptyString(str) {
         return str !== '';
       };
-      platforms = R.filter(isEmptyString, platforms);
+      platforms = fp.filter(isEmptyString)(platforms);
 
       this.options.platforms = platforms;
     }
@@ -87,7 +89,7 @@ var BotmasterGenerator = function (_Generator) {
       this.log(this.options.platforms);
     }
   }]);
-  return BotmasterGenerator;
+  return ProjectGenerator;
 }(Generator);
 
-module.exports = BotmasterGenerator;
+module.exports = ProjectGenerator;

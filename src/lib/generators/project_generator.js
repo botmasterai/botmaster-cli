@@ -1,9 +1,9 @@
-const R = require('ramda');
+const fp = require('lodash/fp');
 const Generator = require('yeoman-generator');
 
 const ProjectGenerator = class extends Generator {
   initializing() {
-    this.composeWith(require.resolve('generator-npm-init/app'));
+    // this.composeWith(require.resolve('generator-npm-init/app'));
   }
 
   prompting() {
@@ -22,7 +22,7 @@ const ProjectGenerator = class extends Generator {
       type: 'input',
       name: 'platforms',
       message: 'Which platforms would you like to support?',
-      default: 'socketio, messenger',
+      default: 'socket.io, messenger',
     };
     if (!this.options.platforms) {
       promptArray.push(platformPrompt);
@@ -36,12 +36,12 @@ const ProjectGenerator = class extends Generator {
       return;
     }
     // create platforms names array
-    let platforms = R.split(/[,]|\s/, this.options.platforms);
+    let platforms = fp.split(/[,]|\s/)(this.options.platforms);
     // remove any dots (for socket.io for instance)
-    platforms = R.map(R.replace('.', ''), platforms);
+    platforms = fp.map(fp.replace(/[.]/g)(''))(platforms);
     // remove empty entries due to using space and commas.
     const isEmptyString = str => str !== '';
-    platforms = R.filter(isEmptyString, platforms);
+    platforms = fp.filter(isEmptyString)(platforms);
 
     this.options.platforms = platforms;
   }

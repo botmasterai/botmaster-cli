@@ -1,0 +1,4 @@
+
+describe('botClass', function() {
+
+});

@@ -1,4 +1,4 @@
-const R = require('ramda');
+// const R = require('ramda');
 const Generator = require('yeoman-generator');
 
 const ProjectGenerator = class extends Generator {
@@ -31,20 +31,20 @@ const ProjectGenerator = class extends Generator {
     return promptArray;
   }
 
-  _parsePlatformNames() {
-    if (!this.options.platforms) {
-      return;
-    }
-    // create platforms names array
-    let platforms = R.split(/[,]|\s/, this.options.platforms);
-    // remove any dots (for socket.io for instance)
-    platforms = R.map(R.replace('.', ''), platforms);
-    // remove empty entries due to using space and commas.
-    const isEmptyString = str => str !== '';
-    platforms = R.filter(isEmptyString, platforms);
+  // _parsePlatformNames() {
+  //   if (!this.options.platforms) {
+  //     return;
+  //   }
+  //   // create platforms names array
+  //   let platforms = R.split(/[,]|\s/, this.options.platforms);
+  //   // remove any dots (for socket.io for instance)
+  //   platforms = R.map(R.replace('.', ''), platforms);
+  //   // remove empty entries due to using space and commas.
+  //   const isEmptyString = str => str !== '';
+  //   platforms = R.filter(isEmptyString, platforms);
 
-    this.options.platforms = platforms;
-  }
+  //   this.options.platforms = platforms;
+  // }
 
   method2() {
     this.log(this.options.platforms);
