@@ -1,18 +1,26 @@
 #!/usr/bin/env node
 
 const R = require('ramda');
-const consoleBotClient = require('./console_bot_client');
-const generateProject = require('./generate_project');
+const consoleBotClient = require('./console_bot/console_bot_client');
+const generatorManager = require('./generator_manager');
 
 require('yargs')
   .command({
-    command: 'generate [options]',
-    aliases: ['generate-project', 'build-project', 'build', 'create'],
-    desc: 'Enables developers to create templated botmaster projects using the preferred architecture',
+    command: 'generate',
+    aliases: ['generate-project', 'build-project', 'create-project'],
+    desc: 'Enables developers to generate templated botmaster projects, middleware or bot class based on passed options. Defaults to project',
     builder: (yargs) => {
-      yargs.option('platforms', {
-        alias: ['p', 'clients', 'c'],
-        describe: 'the platforms you want your botmaster project to support. Comma or space separated string',
+      yargs.option('project', {
+        alias: ['p'],
+        describe: 'generate a new project',
+      });
+      yargs.option('middleware', {
+        alias: ['m'],
+        describe: 'generate a new middleware',
+      });
+      yargs.option('bot-class', {
+        alias: ['botClass', 'b'],
+        describe: 'generate a new bot class',
       });
       yargs.option('help', {
         alias: ['h'],
@@ -25,11 +33,25 @@ require('yargs')
         describe: 'Do not automatically install dependencies',
         default: false,
       });
+
+      return yargs
+        // specify that arguments are pairwise mutually exclusive
+        .conflicts('project', 'middleware')
+        .conflicts('project', 'bot-class')
+        .conflicts('middleware', 'bot-class');
     },
     handler: (argv) => {
       // let yeoman do the rest
-      generateProject(
-        R.pick(['platforms', 'skip-cache', 'skip-install'], argv));
+      let wantedGenerator;
+      if (argv.project) {
+        wantedGenerator = 'project';
+      } else if (argv.middleware) {
+        wantedGenerator = 'middleware';
+      } else if (argv.botClass) {
+        wantedGenerator = 'botClass';
+      }
+      generatorManager.run(
+        wantedGenerator, R.pick(['skip-cache', 'skip-install'], argv));
     },
   })
 

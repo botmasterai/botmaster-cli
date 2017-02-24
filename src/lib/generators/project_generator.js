@@ -1,9 +1,9 @@
 const R = require('ramda');
 const Generator = require('yeoman-generator');
 
-const BotmasterGenerator = class extends Generator {
+const ProjectGenerator = class extends Generator {
   initializing() {
-
+    this.composeWith(require.resolve('generator-npm-init/app'));
   }
 
   prompting() {
@@ -51,4 +51,4 @@ const BotmasterGenerator = class extends Generator {
   }
 };
 
-module.exports = BotmasterGenerator;
+module.exports = ProjectGenerator;
