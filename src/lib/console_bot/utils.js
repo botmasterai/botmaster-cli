@@ -1,3 +1,5 @@
+'use strict';
+
 const chalk = require('chalk');
 
 // function adapted to the console from: http://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript

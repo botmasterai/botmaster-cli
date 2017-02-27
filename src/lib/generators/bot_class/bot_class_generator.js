@@ -10,7 +10,7 @@ const BotClassGenerator = class extends Generator {
   prompting() {
     this.log(chalk.blue('\nNow we will go through the Bot class creation prompt:\n'));
 
-    // because can't feed answers into the inquirer prompt using tests...
+    // because can't feed answers into the inquirer prompt using tests
     const promptInterface = process.env.NODE_ENV === 'test'
       ? this.prompt.bind(this)
       : inquirer.prompt;

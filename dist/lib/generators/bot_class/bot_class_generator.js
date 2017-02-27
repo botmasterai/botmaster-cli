@@ -71,7 +71,7 @@ var BotClassGenerator = function (_Generator) {
 
       this.log(_chalk2.default.blue('\nNow we will go through the Bot class creation prompt:\n'));
 
-      // because can't feed answers into the inquirer prompt using tests...
+      // because can't feed answers into the inquirer prompt using tests
       var promptInterface = process.env.NODE_ENV === 'test' ? this.prompt.bind(this) : _inquirer2.default.prompt;
 
       var promptArray = this._buildPromptArray();

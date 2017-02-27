@@ -26,8 +26,6 @@ var _yeomanGenerator2 = _interopRequireDefault(_yeomanGenerator);
 
 var _utils = require('../utils');
 
-var _utils2 = _interopRequireDefault(_utils);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var composedBotClassGenerator = function (_Generator) {
@@ -42,7 +40,7 @@ var composedBotClassGenerator = function (_Generator) {
     key: 'initializing',
     value: function initializing() {
       if (!this.options.standalone) {
-        _utils2.default.printPreNPMInitPromptMessage(this.log);
+        (0, _utils.printPreNPMInitPromptMessage)(this.log);
         this.composeWith(require.resolve('generator-npm-init/app'));
       }
       this.composeWith(require.resolve('./bot_class_generator'), this.options);

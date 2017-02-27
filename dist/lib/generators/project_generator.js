@@ -20,10 +20,15 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _fp = require('lodash/fp');
 
-var fp = require('lodash/fp');
-var Generator = require('yeoman-generator');
+var _fp2 = _interopRequireDefault(_fp);
+
+var _yeomanGenerator = require('yeoman-generator');
+
+var _yeomanGenerator2 = _interopRequireDefault(_yeomanGenerator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ProjectGenerator = function (_Generator) {
   (0, _inherits3.default)(ProjectGenerator, _Generator);
@@ -72,14 +77,14 @@ var ProjectGenerator = function (_Generator) {
         return;
       }
       // create platforms names array
-      var platforms = fp.split(/[,]|\s/)(this.options.platforms);
+      var platforms = _fp2.default.split(/[,]|\s/)(this.options.platforms);
       // remove any dots (for socket.io for instance)
-      platforms = fp.map(fp.replace(/[.]/g)(''))(platforms);
+      platforms = _fp2.default.map(_fp2.default.replace(/[.]/g)(''))(platforms);
       // remove empty entries due to using space and commas.
       var isEmptyString = function isEmptyString(str) {
         return str !== '';
       };
-      platforms = fp.filter(isEmptyString)(platforms);
+      platforms = _fp2.default.filter(isEmptyString)(platforms);
 
       this.options.platforms = platforms;
     }
@@ -90,6 +95,6 @@ var ProjectGenerator = function (_Generator) {
     }
   }]);
   return ProjectGenerator;
-}(Generator);
+}(_yeomanGenerator2.default);
 
 module.exports = ProjectGenerator;

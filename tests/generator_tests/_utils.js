@@ -1,3 +1,4 @@
+'use strict';
 // writing this in CommonJS, as ava does not transpile code that
 // does not contain a test in it
 const path = require('path');

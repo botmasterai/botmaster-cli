@@ -1,3 +1,5 @@
+'use strict';
+
 const io = require('socket.io-client');
 const chalk = require('chalk');
 const readline = require('readline');

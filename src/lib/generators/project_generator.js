@@ -1,5 +1,5 @@
-const fp = require('lodash/fp');
-const Generator = require('yeoman-generator');
+import fp from 'lodash/fp';
+import Generator from 'yeoman-generator';
 
 const ProjectGenerator = class extends Generator {
   initializing() {

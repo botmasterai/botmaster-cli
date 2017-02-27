@@ -1,6 +1,6 @@
-const chalk = require('chalk');
+import chalk from 'chalk';
 
-const printPreNPMInitPromptMessage = (logger) => {
+export const printPreNPMInitPromptMessage = (logger) => {
   logger(chalk.blue('\nFirst, we will walk through the creation of'));
   logger(chalk.blue('a standard package.json file using npm init\n'));
 
@@ -14,9 +14,4 @@ and exactly what they do.
 
 Use \`npm install <pkg> --save\` afterwards to install a package and
 save it as a dependency in the package.json file.\n`));
-};
-
-
-module.exports = {
-  printPreNPMInitPromptMessage,
 };

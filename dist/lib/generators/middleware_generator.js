@@ -20,10 +20,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _yeomanGenerator = require('yeoman-generator');
 
-// const R = require('ramda');
-var Generator = require('yeoman-generator');
+var _yeomanGenerator2 = _interopRequireDefault(_yeomanGenerator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ProjectGenerator = function (_Generator) {
   (0, _inherits3.default)(ProjectGenerator, _Generator);
@@ -86,6 +87,6 @@ var ProjectGenerator = function (_Generator) {
     }
   }]);
   return ProjectGenerator;
-}(Generator);
+}(_yeomanGenerator2.default);
 
 module.exports = ProjectGenerator;

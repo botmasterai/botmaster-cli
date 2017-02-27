@@ -1,5 +1,4 @@
-// const R = require('ramda');
-const Generator = require('yeoman-generator');
+import Generator from 'yeoman-generator';
 
 const ProjectGenerator = class extends Generator {
   initializing() {
