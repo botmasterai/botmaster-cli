@@ -36,9 +36,11 @@ var composedBotClassGenerator = function (_Generator) {
   (0, _createClass3.default)(composedBotClassGenerator, [{
     key: 'initializing',
     value: function initializing() {
-      utils.printPreNPMInitPromptMessage(this.log);
-      this.composeWith(require.resolve('generator-npm-init/app'), { 'skip-test': true });
-      this.composeWith(require.resolve('./bot_class_generator'));
+      if (!this.options.standalone) {
+        utils.printPreNPMInitPromptMessage(this.log);
+        this.composeWith(require.resolve('generator-npm-init/app'));
+      }
+      this.composeWith(require.resolve('./bot_class_generator'), this.options);
     }
   }]);
   return composedBotClassGenerator;

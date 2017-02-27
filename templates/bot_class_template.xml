@@ -1,0 +1,62 @@
+<main><a class='codeStyle CommonJS'>'use strict';</a><a class='codeStyle ES2017'>import { BaseBot } from 'botmaster';</a>
+<a class='codeStyle CommonJS'>
+const BaseBot = require('botmaster').BaseBot;
+</a>
+<a class='codeStyle ES2017'>export</a> class <bot-class-name></bot-class-name> extends BaseBot {
+  constructor(settings) {
+    super(settings);
+
+    this.type = '<bot-type></bot-type>';
+    this.requiredCredentials = [];<a class='requires-webhook'>
+    this.requiresWebhook = true;</a>
+
+    this.receives = {
+      text: false,
+      attachments: {
+        audio: false,
+        file: false,
+        image: false,
+        video: false,
+      },
+      echo: false,
+      read: false,
+      postbacks: false,
+    };
+
+    this.sends = {
+      text: false,
+      quickReply: false,
+      typing: false,
+      attachments: {
+        audio: false,
+        file: false,
+        image: false,
+        video: false,
+      },
+    };
+
+    // make sure your bot is assigned an id at the latest upon receiving a message
+    // and before emitting that message to botmaster
+    this.id = '';
+
+    this.__applySettings(settings);
+  }
+<a class='requires-webhook'>
+  __createMountPoints(rawUpdate) {
+  }
+</a>
+  __formatUpdate(rawUpdate) {
+  }
+
+  __formatOutgoingMessage(message) {
+  }
+
+  __sendMessage(message) {
+  }
+
+  sendRaw(message, cb) {
+  }
+}<a class='codeStyle CommonJS'>
+
+module.exports = <bot-class-name></bot-class-name>;</a>
+</main>

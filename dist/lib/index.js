@@ -1,11 +1,25 @@
 #!/usr/bin/env node
 'use strict';
 
-var fp = require('lodash/fp');
-var consoleBotClient = require('./console_bot/console_bot_client');
-var generatorManager = require('./generator_manager');
+var _fp = require('lodash/fp');
 
-require('yargs').command({
+var _fp2 = _interopRequireDefault(_fp);
+
+var _yargs = require('yargs');
+
+var _yargs2 = _interopRequireDefault(_yargs);
+
+var _console_bot_client = require('./console_bot/console_bot_client');
+
+var _console_bot_client2 = _interopRequireDefault(_console_bot_client);
+
+var _run_generator = require('./run_generator');
+
+var _run_generator2 = _interopRequireDefault(_run_generator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_yargs2.default.command({
   command: 'generate',
   aliases: ['generate-project', 'build-project', 'create-project'],
   desc: 'Enables developers to generate templated botmaster projects, middleware or bot class based on passed options. Defaults to project',
@@ -22,6 +36,10 @@ require('yargs').command({
       alias: ['botClass', 'b'],
       describe: 'generate a new bot class'
     });
+    yargs.option('standalone', {
+      alias: ['s'],
+      describe: 'This option works alongside either bot-class or middleware. If selected, only a bot class or middleware file will be created with no project structure'
+    });
     yargs.option('help', {
       alias: ['h']
     });
@@ -36,7 +54,7 @@ require('yargs').command({
 
     return yargs
     // specify that arguments are pairwise mutually exclusive
-    .conflicts('project', 'middleware').conflicts('project', 'bot-class').conflicts('middleware', 'bot-class');
+    .conflicts('project', 'middleware').conflicts('project', 'bot-class').conflicts('middleware', 'bot-class').conflicts('project', 'standalone');
   },
   handler: function handler(argv) {
     // let yeoman do the rest
@@ -48,7 +66,7 @@ require('yargs').command({
     } else if (argv.botClass) {
       wantedGenerator = 'botClass';
     }
-    generatorManager.run(wantedGenerator, fp.pick(['skip-cache', 'skip-install'])(argv));
+    (0, _run_generator2.default)(wantedGenerator, _fp2.default.pick(['skip-cache', 'skip-install', 'standalone'])(argv));
   }
 }).command({
   command: 'console-bot [options]',
@@ -75,6 +93,6 @@ require('yargs').command({
     if (argv.botmasterUserId && typeof argv.botmasterUserId === 'string') {
       url += '?botmasterUserId=' + argv.botmasterUserId;
     }
-    consoleBotClient(url);
+    (0, _console_bot_client2.default)(url);
   }
 }).demandCommand(1).help().wrap(100).argv;
