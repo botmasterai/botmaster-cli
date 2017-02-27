@@ -20,10 +20,15 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _yeomanGenerator = require('yeoman-generator');
 
-var Generator = require('yeoman-generator');
-var utils = require('../utils');
+var _yeomanGenerator2 = _interopRequireDefault(_yeomanGenerator);
+
+var _utils = require('../utils');
+
+var _utils2 = _interopRequireDefault(_utils);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var composedBotClassGenerator = function (_Generator) {
   (0, _inherits3.default)(composedBotClassGenerator, _Generator);
@@ -37,13 +42,13 @@ var composedBotClassGenerator = function (_Generator) {
     key: 'initializing',
     value: function initializing() {
       if (!this.options.standalone) {
-        utils.printPreNPMInitPromptMessage(this.log);
+        _utils2.default.printPreNPMInitPromptMessage(this.log);
         this.composeWith(require.resolve('generator-npm-init/app'));
       }
       this.composeWith(require.resolve('./bot_class_generator'), this.options);
     }
   }]);
   return composedBotClassGenerator;
-}(Generator);
+}(_yeomanGenerator2.default);
 
 module.exports = composedBotClassGenerator;

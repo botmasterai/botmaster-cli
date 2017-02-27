@@ -1,5 +1,5 @@
-const Generator = require('yeoman-generator');
-const utils = require('../utils');
+import Generator from 'yeoman-generator';
+import utils from '../utils';
 
 const composedBotClassGenerator = class extends Generator {
   initializing() {

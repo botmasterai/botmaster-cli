@@ -29,7 +29,7 @@ const BotClassGenerator = class extends Generator {
       type: 'input',
       name: 'botClassName',
       message: 'How will your bot class be called?',
-      default: upperFirst(camelCase(this.appname)),
+      default: BotClassGenerator._createDefaultBotClassName(this.appname),
     };
 
     const requiresWebhookPrompt = {
@@ -59,6 +59,15 @@ const BotClassGenerator = class extends Generator {
     promptArray.push(codeStylePrompt);
 
     return promptArray;
+  }
+
+  static _createDefaultBotClassName(folderName) {
+    const folderNameWithoutBotmaster = folderName.toLowerCase().replace('botmaster', '');
+    const folderNameEndingWithBot = folderNameWithoutBotmaster.endsWith('bot')
+      ? folderNameWithoutBotmaster
+      : `${folderNameWithoutBotmaster}-bot`;
+
+    return upperFirst(camelCase(folderNameEndingWithBot));
   }
 
   paths() {

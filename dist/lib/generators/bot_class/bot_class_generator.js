@@ -50,10 +50,6 @@ var _cheerio = require('cheerio');
 
 var _cheerio2 = _interopRequireDefault(_cheerio);
 
-var _gulpBeautify = require('gulp-beautify');
-
-var _gulpBeautify2 = _interopRequireDefault(_gulpBeautify);
-
 var _yeomanGenerator = require('yeoman-generator');
 
 var _yeomanGenerator2 = _interopRequireDefault(_yeomanGenerator);
@@ -91,7 +87,7 @@ var BotClassGenerator = function (_Generator) {
         type: 'input',
         name: 'botClassName',
         message: 'How will your bot class be called?',
-        default: (0, _lodash.upperFirst)((0, _lodash.camelCase)(this.appname))
+        default: BotClassGenerator._createDefaultBotClassName(this.appname)
       };
 
       var requiresWebhookPrompt = {
@@ -266,6 +262,14 @@ var BotClassGenerator = function (_Generator) {
     value: function end() {
       this.log(_chalk2.default.green('Successfully setup your botclass. You can now hack away at it.'));
       this.log(_chalk2.default.blue('\nRead more about how to write bot classes at: http://botmasterai.com/working-with-botmaster/writing-your-own-bot-class/'));
+    }
+  }], [{
+    key: '_createDefaultBotClassName',
+    value: function _createDefaultBotClassName(folderName) {
+      var folderNameWithoutBotmaster = folderName.toLowerCase().replace('botmaster', '');
+      var folderNameEndingWithBot = folderNameWithoutBotmaster.endsWith('bot') ? folderNameWithoutBotmaster : folderNameWithoutBotmaster + '-bot';
+
+      return (0, _lodash.upperFirst)((0, _lodash.camelCase)(folderNameEndingWithBot));
     }
   }]);
   return BotClassGenerator;

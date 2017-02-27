@@ -4,6 +4,7 @@ module.exports = {
         "ava"
     ],
     "rules": {
-        "import/no-extraneous-dependencies": ["off"]
+        "import/no-extraneous-dependencies": ["off"],
+        "no-underscore-dangling": ["off"]
     }
 };
