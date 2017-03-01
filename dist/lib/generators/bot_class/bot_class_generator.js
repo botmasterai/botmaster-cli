@@ -140,35 +140,68 @@ var BotClassGenerator = function (_Generator) {
                 }
 
                 destinationPath = (0, _lodash.snakeCase)(botClassName) + '.js';
-                _context.next = 11;
+                _context.next = 25;
                 break;
 
               case 6:
-                _context.next = 8;
+                _context.prev = 6;
+                _context.next = 9;
                 return _fsPromise2.default.mkdir('./src');
 
-              case 8:
-                _context.next = 10;
-                return _fsPromise2.default.mkdir('./src/lib');
-
-              case 10:
-                destinationPath = 'src/lib/' + (0, _lodash.snakeCase)(botClassName) + '.js';
+              case 9:
+                _context.next = 15;
+                break;
 
               case 11:
-                _context.next = 13;
+                _context.prev = 11;
+                _context.t0 = _context['catch'](6);
+
+                if (!(_context.t0.code !== 'EEXIST')) {
+                  _context.next = 15;
+                  break;
+                }
+
+                throw _context.t0;
+
+              case 15:
+                _context.prev = 15;
+                _context.next = 18;
+                return _fsPromise2.default.mkdir('./src/lib');
+
+              case 18:
+                _context.next = 24;
+                break;
+
+              case 20:
+                _context.prev = 20;
+                _context.t1 = _context['catch'](15);
+
+                if (!(_context.t1.code !== 'EEXIST')) {
+                  _context.next = 24;
+                  break;
+                }
+
+                throw _context.t1;
+
+              case 24:
+
+                destinationPath = 'src/lib/' + (0, _lodash.snakeCase)(botClassName) + '.js';
+
+              case 25:
+                _context.next = 27;
                 return this._getBotClassTemplate();
 
-              case 13:
+              case 27:
                 botClassTemplate = _context.sent;
-                _context.next = 16;
+                _context.next = 30;
                 return _fsPromise2.default.writeFile(destinationPath, botClassTemplate);
 
-              case 16:
+              case 30:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, this, [[6, 11], [15, 20]]);
       }));
 
       function writing() {

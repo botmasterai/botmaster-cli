@@ -81,8 +81,22 @@ const BotClassGenerator = class extends Generator {
     if (this.options.standalone) {
       destinationPath = `${snakeCase(botClassName)}.js`;
     } else {
-      await fsp.mkdir('./src');
-      await fsp.mkdir('./src/lib');
+      try {
+        await fsp.mkdir('./src');
+      } catch (err) {
+        if (err.code !== 'EEXIST') {
+          throw err;
+        }
+      }
+
+      try {
+        await fsp.mkdir('./src/lib');
+      } catch (err) {
+        if (err.code !== 'EEXIST') {
+          throw err;
+        }
+      }
+
       destinationPath = `src/lib/${snakeCase(botClassName)}.js`;
     }
 

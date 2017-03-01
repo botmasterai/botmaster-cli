@@ -1,5 +1,6 @@
 import test from 'ava';
 import fsp from 'fs-promise';
+import fs from 'fs';
 import { snakeCase } from 'lodash';
 import path from 'path';
 import assert from 'yeoman-assert';
@@ -76,6 +77,28 @@ test('Bot class created that requires webhooks is as expected', async (t) => { /
   assert.noFile('package.json');
   assert.file(botClassFileName);
   assert.fileContent(botClassFileName, requiresWebhookBotClassFile.toString());
+});
+
+test('when src folder already exists, don\'t try to recreate id', async (t) => { // eslint-disable-line
+  const botClassName = 'TestBot';
+  const botClassFileName = `./src/lib/${snakeCase(botClassName)}.js`;
+
+  await simulateRunningGenerator(
+    'botClass',
+    {
+      'skip-install': true,
+    },
+    {
+      botClassName,
+    },
+    (dir) => {
+      fs.mkdirSync('./src');
+      fs.mkdirSync('./src/lib');
+    },
+  );
+
+  assert.file('package.json');
+  assert.file(botClassFileName);
 });
 
 test('When standalone option is not selected, correct folder structure and package.json are created', async (t) => {
