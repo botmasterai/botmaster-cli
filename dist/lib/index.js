@@ -106,9 +106,11 @@ var argv = _yargs2.default.option('version', {
   }
 }).help().wrap(100).argv;
 
+var command = argv._[0];
+
 if (argv.v) {
   console.log(_chalk2.default.green('\nv' + _package.version));
-} else {
+} else if (!command) {
   _yargs2.default.showHelp();
   console.log(_chalk2.default.red('Please enter one of the commands or options'));
 }

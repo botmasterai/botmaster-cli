@@ -99,9 +99,11 @@ const argv = yargs
 .wrap(100)
 .argv;
 
+const command = argv._[0];
+
 if (argv.v) {
   console.log(chalk.green(`\nv${version}`));
-} else {
+} else if (!command) {
   yargs.showHelp();
   console.log(chalk.red('Please enter one of the commands or options'));
 }
