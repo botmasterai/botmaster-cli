@@ -2,10 +2,17 @@
 
 import fp from 'lodash/fp';
 import yargs from 'yargs';
+import chalk from 'chalk';
 import consoleBotClient from './console_bot/console_bot_client';
 import runGenerator from './run_generator';
+import { version } from '../../package.json';
 
-yargs.command({
+const argv = yargs
+.option('version', {
+  alias: 'v',
+  description: 'the version of this package',
+})
+.command({
   command: 'generate',
   aliases: ['generate-project', 'build-project', 'create-project'],
   desc: 'Enables developers to generate templated botmaster projects, middleware or bot class based on passed options. Defaults to project',
@@ -88,7 +95,14 @@ yargs.command({
     consoleBotClient(url);
   },
 })
-.demandCommand(1)
 .help()
 .wrap(100)
 .argv;
+
+if (argv.v) {
+  console.log(chalk.green(`\nv${version}`));
+} else {
+  yargs.showHelp();
+  console.log(chalk.red('Please enter one of the commands or options'));
+}
+

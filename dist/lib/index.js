@@ -9,6 +9,10 @@ var _yargs = require('yargs');
 
 var _yargs2 = _interopRequireDefault(_yargs);
 
+var _chalk = require('chalk');
+
+var _chalk2 = _interopRequireDefault(_chalk);
+
 var _console_bot_client = require('./console_bot/console_bot_client');
 
 var _console_bot_client2 = _interopRequireDefault(_console_bot_client);
@@ -17,9 +21,14 @@ var _run_generator = require('./run_generator');
 
 var _run_generator2 = _interopRequireDefault(_run_generator);
 
+var _package = require('../../package.json');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_yargs2.default.command({
+var argv = _yargs2.default.option('version', {
+  alias: 'v',
+  description: 'the version of this package'
+}).command({
   command: 'generate',
   aliases: ['generate-project', 'build-project', 'create-project'],
   desc: 'Enables developers to generate templated botmaster projects, middleware or bot class based on passed options. Defaults to project',
@@ -95,4 +104,11 @@ _yargs2.default.command({
     }
     (0, _console_bot_client2.default)(url);
   }
-}).demandCommand(1).help().wrap(100).argv;
+}).help().wrap(100).argv;
+
+if (argv.v) {
+  console.log(_chalk2.default.green('\nv' + _package.version));
+} else {
+  _yargs2.default.showHelp();
+  console.log(_chalk2.default.red('Please enter one of the commands or options'));
+}
