@@ -84,25 +84,36 @@ var argv = _yargs2.default.option('version', {
   builder: function builder(yargs) {
     yargs.option('host', {
       alias: 'h',
-      describe: 'the host your bot is on',
-      default: 'localhost'
+      describe: 'the host your bot is on'
     });
     yargs.option('port', {
       alias: 'p',
-      describe: 'the port your bot is on',
-      default: 3000
+      describe: 'the port your bot is on'
     });
     yargs.option('botmasterUserId', {
       alias: ['userId', 'id', 'i'],
       describe: 'the botmasterUserId you want to connect as. Uses socket.io\'s to generate one by default'
     });
+    yargs.option('print-full-object', {
+      alias: ['full-object', 'f', 'print-all'],
+      describe: 'Print the full object response from your bot',
+      default: false
+    });
   },
   handler: function handler(argv) {
+    if (!argv.host && !argv.port) {
+      argv.host = 'localhost';
+      argv.port = 3000;
+    } else if (argv.host && !argv.port) {
+      argv.port = 80;
+    } else if (!argv.host && argv.port) {
+      argv.host = 'localhost';
+    }
     var url = 'ws://' + argv.host + ':' + argv.port;
     if (argv.botmasterUserId && typeof argv.botmasterUserId === 'string') {
       url += '?botmasterUserId=' + argv.botmasterUserId;
     }
-    (0, _console_bot_client2.default)(url);
+    (0, _console_bot_client2.default)(url, argv.printFullObject);
   }
 }).help().wrap(100).argv;
 

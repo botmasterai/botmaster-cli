@@ -13,7 +13,8 @@ var readline = require('readline');
 var _require = require('./utils'),
     syntaxHighlight = _require.syntaxHighlight;
 
-var consoleBotClient = function consoleBotClient(url) {
+var consoleBotClient = function consoleBotClient(url, printFullObject) {
+  console.log(chalk.yellow('\nTrying to connect to: ' + url + '...\n'));
   var socket = io(url);
   var rl = readline.createInterface({
     input: process.stdin,
@@ -22,6 +23,7 @@ var consoleBotClient = function consoleBotClient(url) {
   });
 
   socket.on('connect', function () {
+    console.log(chalk.yellow('Successfully connected to: ' + url));
     console.log(chalk.underline.green('\nConverse with your bot:\n'));
 
     rl.prompt();
@@ -33,6 +35,20 @@ var consoleBotClient = function consoleBotClient(url) {
   });
 
   socket.on('message', function (msg) {
+    if (!printFullObject) {
+      if (msg.sender_action === 'typing_on') {
+        console.log('bot is typing');
+        return;
+      }
+      try {
+        var botText = msg.message.text;
+        console.log(chalk.green('\n' + botText + '\n'));
+        rl.prompt();
+        return;
+      } catch (e) {
+        console.log(chalk.red('\nCouldn\'t find any text in your bot\'s message. Here\'s the full update that was received '));
+      }
+    }
     try {
       console.log(chalk.blue('\nObject your bot replies with:\n'));
       console.log(syntaxHighlight((0, _stringify2.default)(msg, null, 2)));

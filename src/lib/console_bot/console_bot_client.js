@@ -5,7 +5,8 @@ const chalk = require('chalk');
 const readline = require('readline');
 const { syntaxHighlight } = require('./utils');
 
-const consoleBotClient = (url) => {
+const consoleBotClient = (url, printFullObject) => {
+  console.log(chalk.yellow(`\nTrying to connect to: ${url}...\n`))
   const socket = io(url);
   const rl = readline.createInterface({
     input: process.stdin,
@@ -14,6 +15,7 @@ const consoleBotClient = (url) => {
   });
 
   socket.on('connect', () => {
+    console.log(chalk.yellow(`Successfully connected to: ${url}`))
     console.log(chalk.underline.green('\nConverse with your bot:\n'));
 
     rl.prompt();
@@ -25,12 +27,26 @@ const consoleBotClient = (url) => {
   });
 
   socket.on('message', (msg) => {
+    if (!printFullObject) {
+      if (msg.sender_action === 'typing_on') {
+        console.log('bot is typing');
+        return;
+      }
+      try {
+        const botText = msg.message.text;
+        console.log(chalk.green(`\n${botText}\n`));
+        rl.prompt();
+        return;
+      } catch (e) {
+        console.log(chalk.red('\nCouldn\'t find any text in your bot\'s message. Here\'s the full update that was received '));
+      }
+    }
     try {
       console.log(chalk.blue('\nObject your bot replies with:\n'));
       console.log(syntaxHighlight(JSON.stringify(msg, null, 2)));
       console.log('\n');
       rl.prompt();
-    } catch(e) {
+    } catch (e) {
       console.log(msg);
     }
   });
