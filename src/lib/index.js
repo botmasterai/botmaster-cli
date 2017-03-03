@@ -99,7 +99,16 @@ const argv = yargs
     } else if (!argv.host && argv.port) {
       argv.host = 'localhost';
     }
-    let url = `ws://${argv.host}:${argv.port}`;
+    let cleanedHost = argv.host;
+    if (cleanedHost.indexOf('https://') === 0) {
+      cleanedHost = argv.host.replace('https://', '');
+    } else if (cleanedHost.indexOf('http://') === 0) {
+      cleanedHost = argv.host.replace('http://', '');
+    }
+    if (cleanedHost[cleanedHost.length - 1] === '/') {
+      cleanedHost = cleanedHost.slice(0, -1);
+    }
+    let url = `ws://${cleanedHost}:${argv.port}`;
     if (argv.botmasterUserId && typeof argv.botmasterUserId === 'string') {
       url += `?botmasterUserId=${argv.botmasterUserId}`;
     }

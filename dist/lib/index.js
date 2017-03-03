@@ -109,7 +109,16 @@ var argv = _yargs2.default.option('version', {
     } else if (!argv.host && argv.port) {
       argv.host = 'localhost';
     }
-    var url = 'ws://' + argv.host + ':' + argv.port;
+    var cleanedHost = argv.host;
+    if (cleanedHost.indexOf('https://') === 0) {
+      cleanedHost = argv.host.replace('https://', '');
+    } else if (cleanedHost.indexOf('http://') === 0) {
+      cleanedHost = argv.host.replace('http://', '');
+    }
+    if (cleanedHost[cleanedHost.length - 1] === '/') {
+      cleanedHost = cleanedHost.slice(0, -1);
+    }
+    var url = 'ws://' + cleanedHost + ':' + argv.port;
     if (argv.botmasterUserId && typeof argv.botmasterUserId === 'string') {
       url += '?botmasterUserId=' + argv.botmasterUserId;
     }
