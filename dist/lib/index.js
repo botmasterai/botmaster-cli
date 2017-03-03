@@ -113,7 +113,7 @@ var argv = _yargs2.default.option('version', {
     if (argv.botmasterUserId && typeof argv.botmasterUserId === 'string') {
       url += '?botmasterUserId=' + argv.botmasterUserId;
     }
-    (0, _console_bot_client2.default)(url, argv.printFullObject);
+    return new _console_bot_client2.default(url, argv.printFullObject);
   }
 }).help().wrap(100).argv;
 

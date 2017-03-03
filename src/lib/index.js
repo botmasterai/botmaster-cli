@@ -3,7 +3,7 @@
 import fp from 'lodash/fp';
 import yargs from 'yargs';
 import chalk from 'chalk';
-import consoleBotClient from './console_bot/console_bot_client';
+import ConsoleBotClient from './console_bot/console_bot_client';
 import runGenerator from './run_generator';
 import { version } from '../../package.json';
 
@@ -103,7 +103,7 @@ const argv = yargs
     if (argv.botmasterUserId && typeof argv.botmasterUserId === 'string') {
       url += `?botmasterUserId=${argv.botmasterUserId}`;
     }
-    consoleBotClient(url, argv.printFullObject);
+    return new ConsoleBotClient(url, argv.printFullObject);
   },
 })
 .help()

@@ -2522,6 +2522,10 @@ handlebars@^4.0.3:
   optionalDependencies:
     uglify-js "^2.6"
 
+hanson@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/hanson/-/hanson-1.2.0.tgz#2d198d5ca03ebccdcaeb7c9d9c492e18405be002"
+
 har-validator@~2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/har-validator/-/har-validator-2.0.6.tgz#cdcbc08188265ad119b6a5a7c8ab70eecfb5d27d"
