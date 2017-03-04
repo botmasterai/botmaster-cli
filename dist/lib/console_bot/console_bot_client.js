@@ -140,12 +140,8 @@ var ConsoleBotClient = function () {
   }, {
     key: 'trySendingObject',
     value: function trySendingObject(line) {
-      if (line.indexOf('{') > -1) {
-        this.openingBracketCount += 1;
-      }
-      if (line.indexOf('}') > -1) {
-        this.closingBracketCount += 1;
-      }
+      this.openingBracketCount += (line.match(/{/g) || []).length;
+      this.closingBracketCount += (line.match(/{/g) || []).length;
 
       this.potentialObjectBeingSent += line;
 
