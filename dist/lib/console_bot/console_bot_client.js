@@ -52,8 +52,8 @@ var ConsoleBotClient = function () {
       var _this = this;
 
       this.rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
+        input: this.reader,
+        output: this.writer,
         prompt: chalk.green('> ')
       });
 
