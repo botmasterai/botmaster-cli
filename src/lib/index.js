@@ -6,8 +6,9 @@ import chalk from 'chalk';
 import ConsoleBotClient from './console_bot/console_bot_client';
 import runGenerator from './run_generator';
 import { version } from '../../package.json';
+import { extractUrlFromArgv } from './utils';
 
-const argv = yargs
+const baseArgv = yargs
 .option('version', {
   alias: 'v',
   description: 'the version of this package',
@@ -91,40 +92,28 @@ const argv = yargs
     });
   },
   handler: (argv) => {
-    if (!argv.host && !argv.port) {
-      argv.host = 'localhost';
-      argv.port = 3000;
-    } else if (argv.host && ! argv.port) {
-      argv.port = 80;
-    } else if (!argv.host && argv.port) {
-      argv.host = 'localhost';
-    }
-    let cleanedHost = argv.host;
-    if (cleanedHost.indexOf('https://') === 0) {
-      cleanedHost = argv.host.replace('https://', '');
-    } else if (cleanedHost.indexOf('http://') === 0) {
-      cleanedHost = argv.host.replace('http://', '');
-    }
-    if (cleanedHost[cleanedHost.length - 1] === '/') {
-      cleanedHost = cleanedHost.slice(0, -1);
-    }
-    let url = `ws://${cleanedHost}:${argv.port}`;
-    if (argv.botmasterUserId && typeof argv.botmasterUserId === 'string') {
-      url += `?botmasterUserId=${argv.botmasterUserId}`;
-    }
-    return new ConsoleBotClient(url, argv.printFullObject);
+    const url = extractUrlFromArgv(argv);
+    return new ConsoleBotClient(
+      url,
+      process.stdin,
+      process.stdout,
+      argv.printFullObject,
+    );
   },
 })
 .help()
 .wrap(100)
 .argv;
 
-const command = argv._[0];
+const command = baseArgv._[0];
 
-if (argv.v) {
+if (baseArgv.v) {
   console.log(chalk.green(`\nv${version}`));
 } else if (!command) {
   yargs.showHelp();
   console.log(chalk.red('Please enter one of the commands or options'));
 }
 
+module.exports = {
+  ConsoleBotClient,
+};

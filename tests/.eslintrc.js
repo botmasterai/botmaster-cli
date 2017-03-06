@@ -5,6 +5,6 @@ module.exports = {
     ],
     "rules": {
         "import/no-extraneous-dependencies": ["off"],
-        "no-underscore-dangling": ["off"]
+        "no-underscore-dangle": ["off"]
     }
 };

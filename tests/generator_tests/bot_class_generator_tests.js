@@ -4,7 +4,6 @@ import fs from 'fs';
 import { snakeCase } from 'lodash';
 import path from 'path';
 import assert from 'yeoman-assert';
-import { expect } from 'chai';
 import { simulateRunningGenerator } from './_utils';
 import BotClassGenerator from '../../dist/lib/generators/bot_class/bot_class_generator';
 
@@ -24,7 +23,7 @@ test('Standalone bot class creates file with wanted defaults', async (t) => { //
   );
 
   const commonJSBotClassFile = await fsp.readFile(path.join(__dirname,
-    '../expected_output/bot_class/standalone/_common_js_bot_class.js'));
+    './expected_output/bot_class/standalone/_common_js_bot_class.js'));
 
   assert.noFile('package.json');
   assert.file(botClassFileName);
@@ -48,7 +47,7 @@ test('Bot class created with ES2017 code style is as expected', async (t) => { /
   );
 
   const ES2017BotClassFile = await fsp.readFile(path.join(__dirname,
-    '../expected_output/bot_class/standalone/_ES2017_bot_class.js'));
+    './expected_output/bot_class/standalone/_ES2017_bot_class.js'));
 
   assert.noFile('package.json');
   assert.file(botClassFileName);
@@ -72,7 +71,7 @@ test('Bot class created that requires webhooks is as expected', async (t) => { /
   );
 
   const requiresWebhookBotClassFile = await fsp.readFile(path.join(__dirname,
-    '../expected_output/bot_class/standalone/_requires_webhook_bot_class.js'));
+    './expected_output/bot_class/standalone/_requires_webhook_bot_class.js'));
 
   assert.noFile('package.json');
   assert.file(botClassFileName);
@@ -125,7 +124,7 @@ test('When standalone option is not selected, correct folder structure and packa
   );
 
   const commonJSBotClassFile = await fsp.readFile(path.join(__dirname,
-    '../expected_output/bot_class/standalone/_common_js_bot_class.js'));
+    './expected_output/bot_class/standalone/_common_js_bot_class.js'));
 
   const packageBuffer = await fsp.readFile(`${dir}/package.json`);
   const packageDotJSON = JSON.parse(packageBuffer);
@@ -136,17 +135,17 @@ test('When standalone option is not selected, correct folder structure and packa
 
 test('#_createDefaultBotClassName should give expected bot class name', () => {
   const folderName1 = 'botmaster_platform';
-  expect(BotClassGenerator._createDefaultBotClassName(folderName1)).to.equal('PlatformBot');
+  assert(BotClassGenerator._createDefaultBotClassName(folderName1) === 'PlatformBot');
 
   const folderName2 = 'platform-bot';
-  expect(BotClassGenerator._createDefaultBotClassName(folderName2)).to.equal('PlatformBot');
+  assert(BotClassGenerator._createDefaultBotClassName(folderName2) === 'PlatformBot');
 
   const folderName3 = 'some_platform-bot';
-  expect(BotClassGenerator._createDefaultBotClassName(folderName3)).to.equal('SomePlatformBot');
+  assert(BotClassGenerator._createDefaultBotClassName(folderName3) === 'SomePlatformBot');
 
   const folderName4 = 'some-platform';
-  expect(BotClassGenerator._createDefaultBotClassName(folderName4)).to.equal('SomePlatformBot');
+  assert(BotClassGenerator._createDefaultBotClassName(folderName4) === 'SomePlatformBot');
 
   const folderName5 = 'BotMaster-pLatform';
-  expect(BotClassGenerator._createDefaultBotClassName(folderName5)).to.equal('PlatformBot');
+  assert(BotClassGenerator._createDefaultBotClassName(folderName5) === 'PlatformBot');
 });

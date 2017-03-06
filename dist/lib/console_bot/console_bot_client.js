@@ -19,14 +19,18 @@ var chalk = require('chalk');
 var readline = require('readline');
 var hanson = require('hanson');
 
-var _require = require('./utils'),
+var _require = require('../utils'),
     syntaxHighlight = _require.syntaxHighlight;
 
 var ConsoleBotClient = function () {
-  function ConsoleBotClient(url, printFullObject) {
+  function ConsoleBotClient(url, reader, writer, printFullObject) {
     (0, _classCallCheck3.default)(this, ConsoleBotClient);
 
     this.url = url;
+    this.reader = reader;
+    // we use the writer separately from rl (i.e. not using rl.write(), because)
+    // otherwise, written lines would be caught by `this.rl.on('line', ...)`
+    this.writer = writer;
     this.printFullObject = printFullObject;
 
     this.setSendObjectDefaultValues();
@@ -70,7 +74,7 @@ var ConsoleBotClient = function () {
       });
 
       this.rl.on('close', function () {
-        console.log('\n\nLeaving the console bot!');
+        _this.writer.write('\n\nLeaving the console bot!');
         process.exit(0);
       });
     }
@@ -79,19 +83,23 @@ var ConsoleBotClient = function () {
     value: function setupSocket() {
       var _this2 = this;
 
-      console.log(chalk.yellow('\nTrying to connect to: ' + this.url + '...\n'));
+      this.writer.write(chalk.yellow('\nTrying to connect to: ' + this.url + '...\n'));
       this.socket = io(this.url);
 
       this.socket.on('connect', function () {
-        console.log(chalk.yellow('Successfully connected to: ' + _this2.url));
-        console.log(chalk.underline.green('\nConverse with your bot:\n'));
+        _this2.writer.write(chalk.yellow('Successfully connected to: ' + _this2.url));
+        _this2.writer.write(chalk.underline.green('\nConverse with your bot:\n'));
 
         _this2.rl.prompt();
       });
 
       this.socket.on('connect_error', function () {
-        console.error(chalk.bold.red('\ncoudn\'t find any valid client at: ' + _this2.url));
+        console.error(chalk.bold.red('\nCoudn\'t find any valid client at: ' + _this2.url));
         process.exit(1);
+      });
+
+      this.socket.on('connect_timeout', function () {
+        console.error(chalk.bold.red('\nConnection timed out trying to connect to: ' + _this2.url));
       });
 
       this.socket.on('message', function (message) {
@@ -111,14 +119,14 @@ var ConsoleBotClient = function () {
       var printObjectInstead = false;
 
       if (message.sender_action === 'typing_on') {
-        console.log('bot is typing');
+        this.writer.write('bot is typing');
       } else {
         try {
           var botText = message.message.text;
-          console.log(chalk.green('\n' + botText + '\n'));
+          this.writer.write(chalk.green('\n' + botText + '\n'));
           this.rl.prompt();
         } catch (e) {
-          console.log(chalk.red('\nCouldn\'t find any text in your bot\'s message. Here\'s the full update that was received '));
+          this.writer.write(chalk.red('\nCouldn\'t find any text in your bot\'s message. Here\'s the full update that was received '));
           printObjectInstead = true;
         }
       }
@@ -129,19 +137,19 @@ var ConsoleBotClient = function () {
     key: 'printMessageAsObject',
     value: function printMessageAsObject(message) {
       try {
-        console.log(chalk.blue('\nObject your bot replies with:\n'));
-        console.log(syntaxHighlight((0, _stringify2.default)(message, null, 2)));
-        console.log('\n');
+        this.writer.write(chalk.blue('\nObject your bot replies with:\n'));
+        this.writer.write(syntaxHighlight((0, _stringify2.default)(message, null, 2)));
+        this.writer.write('\n');
         this.rl.prompt();
       } catch (e) {
-        console.log(message);
+        this.writer.write(message);
       }
     }
   }, {
     key: 'trySendingObject',
     value: function trySendingObject(line) {
       this.openingBracketCount += (line.match(/{/g) || []).length;
-      this.closingBracketCount += (line.match(/{/g) || []).length;
+      this.closingBracketCount += (line.match(/}/g) || []).length;
 
       this.potentialObjectBeingSent += line;
 
@@ -154,7 +162,7 @@ var ConsoleBotClient = function () {
           // this.rl.setPrompt(chalk.green('> '));
         } catch (err) {
           if (err instanceof SyntaxError) {
-            console.log(chalk.red('Could\'n parse your JSON object. Please try make sure the object you pass in is a valid JSON object'));
+            this.writer.write(chalk.red('Could\'n parse your JSON object. Please try make sure the object you pass in is a valid JSON object'));
             this.setSendObjectDefaultValues();
             this.rl.prompt();
           } else {

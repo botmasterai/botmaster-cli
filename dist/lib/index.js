@@ -23,9 +23,11 @@ var _run_generator2 = _interopRequireDefault(_run_generator);
 
 var _package = require('../../package.json');
 
+var _utils = require('./utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var argv = _yargs2.default.option('version', {
+var baseArgv = _yargs2.default.option('version', {
   alias: 'v',
   description: 'the version of this package'
 }).command({
@@ -101,36 +103,20 @@ var argv = _yargs2.default.option('version', {
     });
   },
   handler: function handler(argv) {
-    if (!argv.host && !argv.port) {
-      argv.host = 'localhost';
-      argv.port = 3000;
-    } else if (argv.host && !argv.port) {
-      argv.port = 80;
-    } else if (!argv.host && argv.port) {
-      argv.host = 'localhost';
-    }
-    var cleanedHost = argv.host;
-    if (cleanedHost.indexOf('https://') === 0) {
-      cleanedHost = argv.host.replace('https://', '');
-    } else if (cleanedHost.indexOf('http://') === 0) {
-      cleanedHost = argv.host.replace('http://', '');
-    }
-    if (cleanedHost[cleanedHost.length - 1] === '/') {
-      cleanedHost = cleanedHost.slice(0, -1);
-    }
-    var url = 'ws://' + cleanedHost + ':' + argv.port;
-    if (argv.botmasterUserId && typeof argv.botmasterUserId === 'string') {
-      url += '?botmasterUserId=' + argv.botmasterUserId;
-    }
-    return new _console_bot_client2.default(url, argv.printFullObject);
+    var url = (0, _utils.extractUrlFromArgv)(argv);
+    return new _console_bot_client2.default(url, process.stdin, process.stdout, argv.printFullObject);
   }
 }).help().wrap(100).argv;
 
-var command = argv._[0];
+var command = baseArgv._[0];
 
-if (argv.v) {
+if (baseArgv.v) {
   console.log(_chalk2.default.green('\nv' + _package.version));
 } else if (!command) {
   _yargs2.default.showHelp();
   console.log(_chalk2.default.red('Please enter one of the commands or options'));
 }
+
+module.exports = {
+  ConsoleBotClient: _console_bot_client2.default
+};

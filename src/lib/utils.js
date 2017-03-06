@@ -2,6 +2,35 @@
 
 const chalk = require('chalk');
 
+function extractUrlFromArgv(argv) {
+  let host = argv.host;
+  let port = argv.port;
+  const botmasterUserId = argv.botmasterUserId;
+
+  if (!host && !port) {
+    host = 'localhost';
+    port = 3000;
+  } else if (!host && port) {
+    host = 'localhost';
+  }
+  let cleanedHost = host;
+  if (cleanedHost.indexOf('https://') === 0) {
+    cleanedHost = host.replace('https://', 'wss://');
+  } else if (cleanedHost.indexOf('http://') === 0) {
+    cleanedHost = host.replace('http://', 'ws://');
+  }
+  // remove potential trailing slash
+  if (cleanedHost[cleanedHost.length - 1] === '/') {
+    cleanedHost = cleanedHost.slice(0, -1);
+  }
+  let url = !port ? cleanedHost : `${cleanedHost}:${port}`;
+  if (botmasterUserId && typeof botmasterUserId === 'string') {
+    url += `?botmasterUserId=${botmasterUserId}`;
+  }
+
+  return url;
+}
+
 // function adapted to the console from: http://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript
 function syntaxHighlight(json) {
   const typeColorMatch = {
@@ -38,4 +67,5 @@ function syntaxHighlight(json) {
 
 module.exports = {
   syntaxHighlight,
+  extractUrlFromArgv,
 };

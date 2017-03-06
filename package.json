@@ -5,7 +5,7 @@
   "main": "./dist/lib/index.js",
   "scripts": {
     "pretest": "npm run build",
-    "test": "export NODE_ENV=test; nyc --reporter=lcov --reporter=html ava --verbose --serial tests/**",
+    "test": "export NODE_ENV=test; nyc --reporter=lcov --reporter=html ava --verbose --serial --match='*' tests/**",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "postversion": "git push && git push --tags && rm -rf build/temp",
     "build": "mkdir -p dist && babel src --out-dir dist",
@@ -60,7 +60,6 @@
     "babel-preset-es2016": "^6.22.0",
     "babel-preset-es2017": "^6.22.0",
     "babel-preset-stage-2": "^6.22.0",
-    "chai": "^3.5.0",
     "coveralls": "^2.11.14",
     "eslint": "^3.5.0",
     "eslint-config-airbnb": "^11.0.0",

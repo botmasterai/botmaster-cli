@@ -15,7 +15,6 @@ function simulateRunningGenerator(generatorName, opts, prompts, pre) {
           pre(dir);
         }
         dirPath = dir;
-        // basename = path.basename(dir);
       })
       .withOptions(opts || {})
       .withPrompts(prompts || {})
