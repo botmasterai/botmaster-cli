@@ -69,7 +69,9 @@ var ConsoleBotClient = function () {
         }
 
         return _this.socket.send({
-          text: line
+          message: {
+            text: line
+          }
         });
       });
 

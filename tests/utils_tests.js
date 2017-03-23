@@ -8,8 +8,8 @@ const extractUrlFromArgvMacro = (t, argv, expectedUrl) => {
 extractUrlFromArgvMacro.title = (providedTitle, argv, expectedUrl) =>
   `Calling extractUrlFromArgv with ${JSON.stringify(argv)} should return ${expectedUrl}`.trim();
 
-test(extractUrlFromArgvMacro, {}, 'localhost:3000');
-test(extractUrlFromArgvMacro, { host: 'example.com' }, 'example.com');
+test(extractUrlFromArgvMacro, {}, 'ws://localhost:3000');
+test(extractUrlFromArgvMacro, { host: 'example.com' }, 'ws://example.com');
 test(extractUrlFromArgvMacro, {
   host: 'http://example.com',
 }, 'ws://example.com');
@@ -23,18 +23,18 @@ test(extractUrlFromArgvMacro, {
 test(extractUrlFromArgvMacro, {
   host: 'example.com',
   port: 6000,
-}, 'example.com:6000');
+}, 'ws://example.com:6000');
 test(extractUrlFromArgvMacro, {
   host: 'example.com',
   port: 6000,
   botmasterUserId: 'some_id',
-}, 'example.com:6000?botmasterUserId=some_id');
+}, 'ws://example.com:6000?botmasterUserId=some_id');
 test(extractUrlFromArgvMacro, {
   host: 'example.com/',
   port: 6000,
   botmasterUserId: 'some_id',
-}, 'example.com:6000?botmasterUserId=some_id');
+}, 'ws://example.com:6000?botmasterUserId=some_id');
 test(extractUrlFromArgvMacro, {
   host: 'example.com/',
   botmasterUserId: 'some_id',
-}, 'example.com?botmasterUserId=some_id');
+}, 'ws://example.com?botmasterUserId=some_id');

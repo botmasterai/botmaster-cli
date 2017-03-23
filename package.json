@@ -5,11 +5,23 @@
   "main": "./dist/lib/index.js",
   "scripts": {
     "pretest": "npm run build",
-    "test": "export NODE_ENV=test; nyc --reporter=lcov --reporter=html ava --verbose --serial --match='*' tests/**",
+    "test": "export NODE_ENV=test; nyc --reporter=lcov --reporter=html ava",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "postversion": "git push && git push --tags && rm -rf build/temp",
     "build": "mkdir -p dist && babel src --out-dir dist",
     "docs": "documentation readme src/index.js --section=\"API Usage\""
+  },
+  "ava": {
+    "files": [
+      "tests/**/utils_tests.js"
+    ],
+    "source": [],
+    "match": [],
+    "serial": true,
+    "verbose": true,
+    "failFast": false,
+    "tap": false,
+    "powerAssert": false
   },
   "bin": {
     "botmaster": "dist/lib/index.js"

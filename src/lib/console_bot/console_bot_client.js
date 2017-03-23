@@ -46,7 +46,9 @@ class ConsoleBotClient {
       }
 
       return this.socket.send({
-        text: line,
+        message: {
+          text: line,
+        },
       });
     });
 

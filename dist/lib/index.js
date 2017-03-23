@@ -97,7 +97,7 @@ var baseArgv = _yargs2.default.option('version', {
       describe: 'the botmasterUserId you want to connect as. Uses socket.io\'s to generate one by default'
     });
     yargs.option('print-full-object', {
-      alias: ['full-object', 'f', 'print-all'],
+      alias: ['full-object', 'f'],
       describe: 'Print the full object response from your bot',
       default: false
     });

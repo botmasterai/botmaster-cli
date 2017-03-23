@@ -29,6 +29,9 @@ function extractUrlFromArgv(argv) {
   if (cleanedHost[cleanedHost.length - 1] === '/') {
     cleanedHost = cleanedHost.slice(0, -1);
   }
+  if (cleanedHost.indexOf('ws://') !== 0 && cleanedHost.indexOf('wss://') !== 0) {
+    cleanedHost = 'ws://' + cleanedHost;
+  }
   var url = !port ? cleanedHost : cleanedHost + ':' + port;
   if (botmasterUserId && typeof botmasterUserId === 'string') {
     url += '?botmasterUserId=' + botmasterUserId;
