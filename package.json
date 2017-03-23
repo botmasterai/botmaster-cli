@@ -13,7 +13,7 @@
   },
   "ava": {
     "files": [
-      "tests/**/utils_tests.js"
+      "tests/**/*.js"
     ],
     "source": [],
     "match": [],
