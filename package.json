@@ -1,6 +1,6 @@
 {
   "name": "botmaster-cli",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "command line interface for botmaster. Enables developers to create templated botmaster projects using the preferred architecture. Also comes with a console botmaster client (using socket.io) to make it easy to test out your bot",
   "main": "./dist/lib/index.js",
   "scripts": {
