@@ -28,7 +28,7 @@ function extractUrlFromArgv(argv) {
     cleanedHost = `ws://${cleanedHost}`;
   }
   let url = !port ? cleanedHost : `${cleanedHost}:${port}`;
-  if (botmasterUserId && typeof botmasterUserId === 'string') {
+  if (botmasterUserId) {
     url += `?botmasterUserId=${botmasterUserId}`;
   }
 

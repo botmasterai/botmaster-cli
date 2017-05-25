@@ -9,7 +9,8 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "postversion": "git push && git push --tags && rm -rf build/temp",
     "build": "mkdir -p dist && babel src --out-dir dist",
-    "docs": "documentation readme src/index.js --section=\"API Usage\""
+    "docs": "documentation readme src/index.js --section=\"API Usage\"",
+    "start": "nodemon --exec babel-node src/lib/index.js"
   },
   "ava": {
     "files": [
@@ -54,6 +55,7 @@
     "inquirer": "^3.0.4",
     "lodash": "^4.17.4",
     "socket.io-client": "^1.7.3",
+    "source-map-support": "^0.4.15",
     "yargs": "^6.6.0",
     "yeoman-environment": "^1.6.6",
     "yeoman-generator": "^1.1.0"

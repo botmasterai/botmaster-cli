@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import 'source-map-support/register';
 import fp from 'lodash/fp';
 import yargs from 'yargs';
 import chalk from 'chalk';
